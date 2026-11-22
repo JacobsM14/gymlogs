@@ -2,19 +2,30 @@ const urlServer = import.meta.env.VITE_API_URL;
 
 // CALL API FUNCTIONS
 async function getFetch(url) {
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const text = await response.text();
-    return JSON.parse(text);
-  } catch (error) {
-    throw error;
-  }
+  // NEW: removed the useless try/catch (it only rethrew), `mode: "cors"` (default)
+  // NEW: and the Content-Type header (a GET has no body; it only forced a CORS preflight)
+  const response = await fetch(url, { method: "GET" }); // NEW
+
+  const text = await response.text();
+
+  // NEW: parse safely; the body can be empty or HTML (e.g. Express "Cannot GET" 404 page)
+  let data = null; // NEW
+  try { // NEW
+    data = text ? JSON.parse(text) : null; // NEW
+  } catch { // NEW
+    data = null; // NEW
+  } // NEW
+
+  // NEW: the original never checked response.ok, so 4xx/5xx looked like success.
+  // NEW: callers check `res.error`, so return an error object instead of throwing.
+  if (!response.ok) { // NEW
+    return { // NEW
+      error: data?.error ?? response.statusText ?? "Request failed", // NEW
+      status: response.status, // NEW
+    }; // NEW
+  } // NEW
+
+  return data;
 }
 
 async function deleteFecth(url) {
