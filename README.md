@@ -1,6 +1,6 @@
 # Gymlogs
 
-Gymlogs was my final project for the Higher National Diploma in Web Application Development (*Grado Superior de Desarrollo de Aplicaciones Web*). It is no longer online, since it has been replaced by its new version, [Fort](https://fort.marcel14.dev/).
+Gymlogs was my final project for the Superior Grade in Web Application Development (*Grado Superior de Desarrollo de Aplicaciones Web*). It is no longer online, since it has been replaced by its new version, [Fort](https://fort.marcel14.dev/).
 
 This repository is kept as a record of the project and as a way to point out, as a self-review, the mistakes I made back then.
 
