@@ -1,4 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+// ! React, useEffect and useRef were imported but never used????
+// import React, { useState, useEffect, useRef } from "react";
+
+import { useState } from "react";
 import { register } from "./../services/userApi";
 import { useNavigate } from "react-router-dom";
 

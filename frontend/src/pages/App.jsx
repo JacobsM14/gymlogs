@@ -1,5 +1,5 @@
-import React from "react";
-import { Navigate, Route, Routes, useParams } from "react-router-dom";
+// import React from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Start from "./start";
 import Login from "./login";
 import Register from "./register";

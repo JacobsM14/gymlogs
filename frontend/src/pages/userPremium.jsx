@@ -1,7 +1,9 @@
 import Nav from "./../components/navComponent/navComponent";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+// CHANGED: BEFORE: import { useEffect, useState } from "react";
+// useState is no longer needed after commenting out the unused `tokenAccess` state.
+import { useEffect } from "react";
 
 // CHANGED: renamed the component to PascalCase.
 // BEFORE: function userPremium() {
@@ -10,15 +12,18 @@ import { useEffect, useState } from "react";
 // inside a lowercase function. It only worked because App.jsx imports it with an uppercase name.
 function UserPremium() {
   const navigate = useNavigate();
-  const [tokenAccess, setTokenAccess] = useState(false);
+  // CHANGED: commented out the unused state.
+  // ERROR: `tokenAccess` is set but never read, so the state (and the re-render it causes) is useless.
+  // It could be removed, or used to conditionally render the premium content.
+  // const [tokenAccess, setTokenAccess] = useState(false);
   // NEED TO BE LOGED IN TO ACCESS THIS PAGE
   useEffect(() => {
     const cookies = new Cookies();
     const token = cookies.get("token");
 
-    if (token) {
-      setTokenAccess(true);
-    } else {
+    // CHANGED: BEFORE: if (token) { setTokenAccess(true); } else { navigate("/login"); }
+    // The setter was commented out together with the unused `tokenAccess` state.
+    if (!token) {
       navigate("/login");
     }
   }, []);

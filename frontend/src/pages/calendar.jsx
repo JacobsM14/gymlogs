@@ -1,7 +1,10 @@
 import Nav from "./../components/navComponent/navComponent";
 import "./../styles/calendar.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+// CHANGED: removed the unused useRef import.
+// BEFORE: import { useEffect, useState, useRef } from "react";
+// ERROR: `useRef` was imported but never used in this page.
+import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 
 import {

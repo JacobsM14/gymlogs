@@ -1,6 +1,10 @@
 import Nav from "./../components/navComponent/navComponent";
 import "./../styles/editRoutine.css";
-import React, { useState, useEffect } from "react";
+// CHANGED: removed the unused default React import.
+// BEFORE: import React, { useState, useEffect } from "react";
+// ERROR: `React` was imported but never used. With the new JSX transform (React 17+, used by Vite)
+// JSX no longer compiles to React.createElement, so importing React is unnecessary.
+import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";

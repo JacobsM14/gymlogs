@@ -15,7 +15,9 @@ import {
   getExerciseById,
   getSessionById,
   getCalendarBySessionExerciseId,
-  getCalendarBySessionExerciseAndDate,
+  // CHANGED: commented out the unused import.
+  // ERROR: getCalendarBySessionExerciseAndDate was imported but never used in this page.
+  // getCalendarBySessionExerciseAndDate,
   createCalendar,
   deleteCalendarById,
 } from "./../services/userApi";
@@ -316,7 +318,7 @@ function Home() {
     const fullDate = today.toISOString().split("T")[0];
     const todayFormatted = today.toISOString().split("T")[0];
 
-    // Obtener los pk_id_calendar de las series de ejercicios creadas hoy
+    // Get the pk_id_calendar of the exercise sets created today
     const calendarIdsToDelete = series
       .filter((serie) => {
         const serieDay = serie.day ? serie.day.split("T")[0] : undefined;
