@@ -45,6 +45,7 @@ router.post("/emailandpassword", async (req, res) => {
         return res.status(200).json({
           id: rows[0].pk_id_user,
           email,
+          // NEVER RETURN THE PASSWORD IN THE RESPONSE
           pssd,
           urole: rows[0].urole,
         });
@@ -220,10 +221,11 @@ router.put("/password/:id/:passwd", async (req, res) => {
     } else {
       const isMatch = await Bun.password.verify(pastPssd, rowsInsert[0].pssd);
 
-      console.log("hash:" + hash);
-      console.log("rowInsert:" + rowsInsert[0].pssd);
-      console.log("isMatch:" + isMatch);
-      console.log("pastPssd:" + pastPssd);
+      // THIS WAS NOT COMMENTED OUT
+      // console.log("hash:" + hash);
+      // console.log("rowInsert:" + rowsInsert[0].pssd);
+      // console.log("isMatch:" + isMatch);
+      // console.log("pastPssd:" + pastPssd);
 
       if (isMatch === true) {
         // console.log("ola");

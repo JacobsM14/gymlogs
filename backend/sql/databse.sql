@@ -13,6 +13,7 @@
 
 -- USE prova;
 
+-- THIS SHOULDN'T EXIST, IT SHOULD BE AN ORM
 CREATE TABLE type_exercise(
 	pk_id_type INT PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL UNIQUE
@@ -245,27 +246,23 @@ VALUES
    
 
 /* EXAMPLE USERS */
-   
+/* SHOULD THIS REALLY BE HERE?????? */
 INSERT INTO users (username, email, pssd, urole, foto) VALUES ("jacob", "marcel.esplu@gmail.com", "$2b$10$A9e6CsQ460fgzbkD0EbF7uA2.hte.tLZ8dfbCni2UCYoLIU3AIs52", 1, null);
-
 INSERT INTO users (username, email, pssd, urole, foto) VALUES ("arcedo", "marc.arcedo@gmail.com", "$2b$10$Yf8TMCyZzggKAgNd.qMNHOyfnhhuHJtoaX2AqZVZCoyU8hkn4t7RS", 2, null);
-
 INSERT INTO users (username, email, pssd, urole, foto) VALUES ("prova", "prova@gmail.com", "$2b$10$Yf8TMCyZzggKAgNd.qMNHOyfnhhuHJtoaX2AqZVZCoyU8hkn4t7RS", 3, null);
 
-/* EXAMPLE ROUTINES */
+/*
+--EXAMPLE ROUTINES
 
+THIS SHOULD HAVE BEEN COMMENTED OUT
 INSERT INTO routines (routine_name, type_routine, num_routine, fk_id_username) VALUES ("prueba01", "libre", 5, 1);
-
 INSERT INTO routines (routine_name, type_routine, day_routine , fk_id_username) VALUES ("prueba02", "semanal", "[\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\"]", 1);
-
 INSERT INTO routines (routine_name, type_routine, num_routine, fk_id_username) VALUES ("arcedo_exercise", "libre", 4, 2);
 
-/* EXAMPLE SESSIONS*/
+--EXAMPLE SESSIONS
 
 INSERT INTO sessions (nom_session, week_day, fk_category_1, fk_category_2, fk_id_routine) VALUES ("Martes", "Tuesday", null, null, 2);
-
 INSERT INTO sessions (nom_session, week_day, fk_category_1, fk_category_2, fk_id_routine) VALUES ("Miercoles", "Wednesday", null, null, 2);
-
 INSERT INTO sessions (nom_session, week_day, fk_category_1, fk_category_2, fk_id_routine) VALUES ("Jueves", "Thursday", null, null, 2);
-
 INSERT INTO sessions (nom_session, week_day, fk_category_1, fk_category_2, fk_id_routine) VALUES ("Viernes", "Friday", null, null, 2);
+*/

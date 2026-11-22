@@ -1,9 +1,15 @@
 import Nav from "./../components/navComponent/navComponent";
 import "./../styles/routine.css";
-import React, { useState, useEffect, useRef } from "react";
+
+// CHANGED: removed the default React import as it's not needed with the new JSX transform.
+// import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Cookies from "universal-cookie";
+
+// MISSING: no data caching. A data-fetching library such as TanStack Query (or SWR) would cache
+// the backend data, avoid unnecessary requests and handle loading/error states.
 
 //IMPORT API
 import {
@@ -22,11 +28,18 @@ function Routine() {
     const cookies = new Cookies();
     const token = cookies.get("token");
 
+    // ERROR: this should be a reusable hook (e.g. useAuth) that checks whether the user is logged in
+    // and redirects if not. It also only checks that the cookie exists; it never validates the token
+    // against the backend.
     if (!token) {
       navigate("/login");
     } else {
       getRoutinesByUser(token)
         .then((data) => {
+          // ERROR: doesn't check whether the response is an error before storing it in the state.
+          // It works by pure luck: with no routines the backend returns 404 { error: "Not found" },
+          // and `routines.length > 0` is false only because an object has no `length`.
+          // SOLUTION: check Array.isArray(data) / data.error, and the backend should return 200 [] when empty.
           setRoutines(data);
         })
         .catch((error) => console.error(error));
@@ -112,6 +125,8 @@ function Routine() {
     const id = cookies.get("token");
     const inputValue = inputPlanedROutine.current.value;
 
+    // ERROR: the advises are never fully reset: if the name is valid but no day is selected, the
+    // min/max advises shown before stay visible, and selectedDaysAdvise is never cleared.
     if (inputValue === null || inputValue === "" || inputValue.length < 3) {
       setInputPlanedRoutineMinLengthAdvise(true);
       setInputPlanedRoutineMaxLengthAdvise(false);
@@ -146,16 +161,25 @@ function Routine() {
         "Sunday",
       ];
 
+      // ERROR: .sort() sorts the state array in place, mutating React state directly.
+      // SOLUTION: sort a copy: const sortedDays = [...selectedDays].sort(...)
       selectedDays.sort(
         (a, b) => daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b)
       );
 
+      // ERROR: it's split into several requests (the routine, then one session per day), so if one
+      // fails the data is left inconsistent. Also, postAndPutFetch doesn't reject on HTTP errors, so
+      // Promise.all treats failed sessions as successful and navigates anyway.
+      // SOLUTION: a single backend endpoint that creates the routine and its sessions in a transaction.
       createRoutine(inputValue, "semanal", selectedDays, null, id)
         .then((data) => {
           getRoutinedata = data;
           if (getRoutinedata !== null && !data.error) {
             let routineID = getRoutinedata.id;
 
+            // ERROR: `routineID !== null` doesn't catch `undefined`. If the response has no `id`, it
+            // creates sessions for an undefined routine and navigates to /editPlanedRoutine/undefined.
+            // SOLUTION: if (routineID != null) or, better, if (typeof routineID === "number")
             if (routineID !== null) {
               const sessionPromises = selectedDays.map((element) =>
                 createSessionPlanedRoutine(
@@ -169,6 +193,9 @@ function Routine() {
                 .then(() => navigate(`/editPlanedRoutine/${routineID}`))
                 .catch((error) => console.error(error));
             }
+            // ERROR: the error is detected by comparing the message text. If the backend message changes
+            // or is translated, this breaks. Also, if `data` is null, `data.error` throws a TypeError.
+            // SOLUTION: use the HTTP status code (the backend already returns 403) or a fixed error code.
           } else if (data.error === "No se pueden tener más de 5 rutinas") {
             setPlanedRoutineVisible(false);
             setClientRoutineComplete(true);
@@ -185,6 +212,8 @@ function Routine() {
     const id = cookies.get("token");
     const inputValue = inputFreeRoutine.current.value;
 
+    // ERROR: typo "lenth" -> undefined < 3 is always false, so the minimum length check never
+    // triggers and names with 1-2 characters are accepted.
     if (inputValue === null || inputValue === "" || inputValue.lenth < 3) {
       setInputFreeRoutineMinLengthAdvise(true);
       setInputFreeRoutineMaxLengthAdvise(false);
@@ -223,11 +252,19 @@ function Routine() {
             navigate(`/editPlanedRoutine/${routineID}`);
           }
         } else {
+          // ERROR: there was no handling for the case when data has an error
+          console.log("error"); // NEW
         }
       })
-      .catch((error) => {});
+      .catch((error) => {
+        // ERROR: there was no console.error
+        console.error(error); // NEW
+      });
   };
 
+  // ERROR: barely split into components. The popups, the week-day selector (7 copy-pasted buttons)
+  // and the routine list could be separate components, improving readability and maintenance.
+  // There's also commented-out HTML left over.
   return (
     <>
       <div className="allCont flex flex-column align-center backgroundGradient position-relative">
@@ -292,6 +329,7 @@ function Routine() {
             <h3>Selecciona los dias</h3>
             <p
               className="adviseFormText cage90 block marginAuto"
+              // ERROR: duplicated condition (`x || x`), it's the same variable twice. Just use `x ? ... : ...`
               style={{
                 display:
                   selectedDaysAdvise || selectedDaysAdvise ? "flex" : "none",
@@ -483,6 +521,7 @@ function Routine() {
             routines.map((routine, index) => {
               return (
                 <div
+                // ERROR: key should be routine.pk_id_routine, not the array index
                   id={routine.pk_id_routine}
                   key={index}
                   onClick={() => editRoutine(routine.pk_id_routine)}

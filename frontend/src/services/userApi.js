@@ -1,5 +1,8 @@
 const urlServer = import.meta.env.VITE_API_URL;
 
+// No request sends a token or credentials. Every endpoint (deleting users, changing emails…) only needs an ID in the URL.
+// Some names are confusing or inconsistent.
+
 // CALL API FUNCTIONS
 async function getFetch(url) {
   // NEW: removed the useless try/catch (it only rethrew), `mode: "cors"` (default)
@@ -96,6 +99,7 @@ export async function updateUserRole(user_id, role) {
 }
 
 // UPDATE USER PASSWORD - PUT
+// The password shouldn't be sent in the URL. It should only go in the request body.
 export async function updateUserPassword(user_id, password, pastPassword) {
   return await postAndPutFetch(
     "PUT",
@@ -127,6 +131,8 @@ export async function register(username, email, password) {
     username: username,
     email: email,
     pssd: password,
+    // THIS SHOULDN'T BE HERE, BY DEFAULT ALL USERS SHOULD GET THE SAME ROLE
+    // AND IT SHOULD BE ASSIGNED BY THE BACKEND
     urole: 2,
     foto: null,
   });
@@ -134,6 +140,7 @@ export async function register(username, email, password) {
 
 // ROUTINES -----------
 // CREATE ROUTINE - POST
+// DOS TIPOS DE RUTINA: "libre" Y "semanal", podria simplemente enviar el tipo y el backend decidiría cómo manejar los días y el número de rutina
 export async function createRoutine(
   routine_name,
   type_routine,
