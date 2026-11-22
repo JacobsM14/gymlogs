@@ -12,7 +12,13 @@ import {
   login,
 } from "./../services/userApi";
 
-function editUser() {
+// CHANGED: renamed the component to PascalCase.
+// BEFORE: function editUser() {
+// React components must start with an uppercase letter: in JSX, <editUser /> compiles to an
+// HTML tag ("edituser") instead of the component, and the rules-of-hooks lint flags every hook
+// inside a lowercase function. It only worked because App.jsx imports it with an uppercase name.
+// It also shadowed the inner `const editUser` handler, which had the same name as the component.
+function EditUser() {
   const navigate = useNavigate();
 
   // FORM REFS
@@ -321,4 +327,5 @@ function editUser() {
   );
 }
 
-export default editUser;
+// CHANGED: BEFORE: export default editUser;
+export default EditUser;

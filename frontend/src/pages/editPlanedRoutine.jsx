@@ -20,7 +20,12 @@ import {
   getMainRoutineByUserAndRoutine,
 } from "./../services/userApi";
 
-function editPlanedRoutine() {
+// CHANGED: renamed the component to PascalCase.
+// BEFORE: function editPlanedRoutine() {
+// React components must start with an uppercase letter: in JSX, <editUser /> compiles to an
+// HTML tag ("edituser") instead of the component, and the rules-of-hooks lint flags every hook
+// inside a lowercase function. It only worked because App.jsx imports it with an uppercase name.
+function EditPlanedRoutine() {
   const navigate = useNavigate();
 
   // ON START THE PAGE
@@ -730,4 +735,5 @@ function editPlanedRoutine() {
   );
 }
 
-export default editPlanedRoutine;
+// CHANGED: BEFORE: export default editPlanedRoutine;
+export default EditPlanedRoutine;

@@ -3,7 +3,12 @@ import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function userPremium() {
+// CHANGED: renamed the component to PascalCase.
+// BEFORE: function userPremium() {
+// React components must start with an uppercase letter: in JSX, <editUser /> compiles to an
+// HTML tag ("edituser") instead of the component, and the rules-of-hooks lint flags every hook
+// inside a lowercase function. It only worked because App.jsx imports it with an uppercase name.
+function UserPremium() {
   const navigate = useNavigate();
   const [tokenAccess, setTokenAccess] = useState(false);
   // NEED TO BE LOGED IN TO ACCESS THIS PAGE
@@ -64,4 +69,5 @@ function userPremium() {
   );
 }
 
-export default userPremium;
+// CHANGED: BEFORE: export default userPremium;
+export default UserPremium;

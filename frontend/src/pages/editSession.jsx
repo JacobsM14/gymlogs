@@ -17,7 +17,12 @@ import {
   deleteSessionExerciseById,
 } from "./../services/userApi";
 
-function editSession() {
+// CHANGED: renamed the component to PascalCase.
+// BEFORE: function editSession() {
+// React components must start with an uppercase letter: in JSX, <editUser /> compiles to an
+// HTML tag ("edituser") instead of the component, and the rules-of-hooks lint flags every hook
+// inside a lowercase function. It only worked because App.jsx imports it with an uppercase name.
+function EditSession() {
   const navigate = useNavigate();
 
   // ON START THE PAGE
@@ -1056,4 +1061,5 @@ function editSession() {
   );
 }
 
-export default editSession;
+// CHANGED: BEFORE: export default editSession;
+export default EditSession;
