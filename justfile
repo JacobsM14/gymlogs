@@ -1,5 +1,5 @@
-backend := "GYMLOGS_BACKEND"
-frontend := "GYMLOGS_FRONTEND"
+backend := "backend"
+frontend := "frontend"
 compose := "docker compose -f " + backend + "/docker-compose.yml"
 
 default:

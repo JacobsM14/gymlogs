@@ -28,7 +28,7 @@ The code will be annotated (work in progress) with comments explaining the mista
 
 - Merged the two original repositories (frontend and backend) into a single one.
 - A `justfile` to run everything with a single command.
-- A `docker-compose.yml` in the backend that runs the MySQL database it needs, initialised from `GYMLOGS_BACKEND/sql/databse.sql`. It was needed to start reviewing the project.
+- A `docker-compose.yml` in the backend that runs the MySQL database it needs, initialised from `backend/sql/databse.sql`. It was needed to start reviewing the project.
 - A `.env.example` in the backend.
 
 ## Running it locally
@@ -36,7 +36,7 @@ The code will be annotated (work in progress) with comments explaining the mista
 Requirements: [Bun](https://bun.sh/), [Docker](https://www.docker.com/) and [just](https://github.com/casey/just).
 
 ```bash
-cp GYMLOGS_BACKEND/.env.example GYMLOGS_BACKEND/.env
+cp backend/.env.example backend/.env
 just install   # install backend and frontend dependencies
 just dev       # start MySQL (Docker), then the backend and the frontend
 ```
